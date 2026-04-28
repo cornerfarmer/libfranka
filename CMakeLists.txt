@@ -150,7 +150,7 @@ target_link_libraries(franka PRIVATE
   TinyXML2::TinyXML2
   Poco::Foundation
   Poco::Net
-  Eigen3::Eigen3
+  Eigen3::Eigen
   Threads::Threads
   pinocchio::pinocchio
 )
@@ -222,7 +222,7 @@ endif()
 
 ## Packaging
 include(SetVersionFromGit)
-set_version_from_git(PACKAGE_VERSION PACKAGE_TAG)
+#set_version_from_git(PACKAGE_VERSION PACKAGE_TAG)
 
 # Get architecture
 execute_process(COMMAND dpkg --print-architecture OUTPUT_VARIABLE PACKAGE_ARCH OUTPUT_STRIP_TRAILING_WHITESPACE)

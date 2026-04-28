@@ -1,0 +1,25 @@
+
+
+[package]
+name = "libfranka"
+version = "0.1.0"
+
+
+[package.build-dependencies]
+cmake = "*"
+make = "*"
+ninja = "*"
+
+[package.host-dependencies]
+eigen = "*"
+poco = "*"
+fmt = "*"
+pinocchio = "*"
+
+[package.run-dependencies]
+
+[package.build]
+backend = { name = "pixi-build-cmake" , version = "*"}
+
+[package.build.config]
+extra-args = ["-DCMAKE_BUILD_TYPE=Release", "-DBUILD_TESTS=OFF", "-DBUILD_EXAMPLES=OFF", "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"]
