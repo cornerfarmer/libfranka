@@ -26,8 +26,11 @@ ActiveControl::~ActiveControl() {
   }
 }
 
-std::pair<RobotState, Duration> ActiveControl::readOnce() {
-  auto robot_state = robot_impl->readOnce();
+std::pair<RobotState, Duration> ActiveControl::readOnce(bool blocking) {
+  auto robot_state = robot_impl->readOnce(blocking);
+  if (!blocking && robot_state.time.toMSec() == 0)
+    return std::make_pair(robot_state, robot_state.time);
+
   robot_impl->throwOnMotionError(robot_state, motion_id);
 
   if (!last_read_access.has_value()) {

@@ -62,7 +62,7 @@ bool setCurrentThreadToHighestSchedulerPriority(std::string* error_message) {
 
   return true;
 #else
-  const int thread_priority = sched_get_priority_max(SCHED_FIFO);
+  const int thread_priority = 98;//sched_get_priority_max(SCHED_FIFO);
   if (thread_priority == -1) {
     if (error_message != nullptr) {
       *error_message =

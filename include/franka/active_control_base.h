@@ -37,7 +37,7 @@ class ActiveControlBase {
    * @throw ProtocolException if robot returns an unexpected message.
    * @throw ControlException if robot is in an error state.
    */
-  virtual std::pair<RobotState, Duration> readOnce() = 0;
+  virtual std::pair<RobotState, Duration> readOnce(bool blocking = true) = 0;
 
   /**
    * Updates torque commands of an active control

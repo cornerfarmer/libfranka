@@ -22,7 +22,7 @@ class ActiveControl : public ActiveControlBase {
  public:
   ~ActiveControl() override;
 
-  std::pair<RobotState, Duration> readOnce() override;
+  std::pair<RobotState, Duration> readOnce(bool blocking = true) override;
 
   void writeOnce(const Torques& /* control_input */) override {
     throw franka::ControlException(wrong_write_once_method_called);

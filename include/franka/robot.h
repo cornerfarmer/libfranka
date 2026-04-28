@@ -451,7 +451,7 @@ class Robot {
    *
    * @see Robot::read for a way to repeatedly receive the robot state.
    */
-  virtual RobotState readOnce();
+  virtual RobotState readOnce(bool blocking = true);
 
   /**
    * @name Commands

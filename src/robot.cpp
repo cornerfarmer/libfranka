@@ -181,8 +181,8 @@ void Robot::read(std::function<bool(const RobotState&)> read_callback) {
   }
 }
 
-RobotState Robot::readOnce() {
-  return impl_->readOnce();
+RobotState Robot::readOnce(bool blocking) {
+  return impl_->readOnce(blocking);
 }
 
 auto Robot::getRobotModel() -> std::string {

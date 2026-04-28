@@ -106,8 +106,8 @@ void Robot::Impl::throwOnMotionError(const RobotState& robot_state, uint32_t mot
   }
 }
 
-RobotState Robot::Impl::readOnce() {
-  current_state_ = convertRobotState(receiveRobotState());
+RobotState Robot::Impl::readOnce(bool blocking) {  
+  current_state_ = convertRobotState(receiveRobotState(blocking));
   return current_state_;
 }
 
@@ -183,7 +183,7 @@ research_interface::robot::RobotCommand Robot::Impl::sendRobotCommand(
   return robot_command;
 }
 
-research_interface::robot::RobotState Robot::Impl::receiveRobotState() {
+research_interface::robot::RobotState Robot::Impl::receiveRobotState(bool blocking) {
   research_interface::robot::RobotState latest_accepted_state;
   auto last_message_id = 0U;
   {
@@ -199,12 +199,20 @@ research_interface::robot::RobotState Robot::Impl::receiveRobotState() {
       latest_accepted_state = received_state;
     }
   }
-
-  // If there was no valid state on the socket, we need to wait.
-  while (latest_accepted_state.message_id == last_message_id) {
-    received_state = network_->udpBlockingReceive<decltype(received_state)>();
-    if (received_state.message_id > latest_accepted_state.message_id) {
-      latest_accepted_state = received_state;
+  //if (!blocking)
+  //  throw ControlException("dbg " + std::to_string(received_state.message_id) + " " + std::to_string(blocking));
+  if (!blocking) {
+    if (latest_accepted_state.message_id == last_message_id){
+      latest_accepted_state.message_id = 0;
+      return latest_accepted_state;
+    }
+  } else {
+    // If there was no valid state on the socket, we need to wait.
+    while (latest_accepted_state.message_id == last_message_id) {
+      received_state = network_->udpBlockingReceive<decltype(received_state)>();
+      if (received_state.message_id > latest_accepted_state.message_id) {
+        latest_accepted_state = received_state;
+      }
     }
   }
 

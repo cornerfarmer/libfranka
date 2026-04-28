@@ -73,7 +73,7 @@ class Robot::Impl : public RobotControl {
    *
    * @return RobotState the current robot state
    */
-  virtual RobotState readOnce();
+  virtual RobotState readOnce(bool blocking = true);
 
   /**
    * Updates the joint-level based torque commands of an active joint effort control
@@ -315,7 +315,7 @@ class Robot::Impl : public RobotControl {
   research_interface::robot::RobotCommand sendRobotCommand(
       const std::optional<research_interface::robot::MotionGeneratorCommand>& motion_command,
       const std::optional<research_interface::robot::ControllerCommand>& control_command) const;
-  research_interface::robot::RobotState receiveRobotState();
+  research_interface::robot::RobotState receiveRobotState(bool blocking = true);
   void updateState(const research_interface::robot::RobotState& robot_state);
 
   std::unique_ptr<Network> network_;  // NOLINT(readability-identifier-naming)
