@@ -13,7 +13,8 @@ ninja = "*"
 [package.host-dependencies]
 eigen = "*"
 poco = "*"
-fmt = "*"
+fmt = "==12.1.0" 
+urdfdom = "5.1.*"
 pinocchio = "*"
 
 [package.run-dependencies]
